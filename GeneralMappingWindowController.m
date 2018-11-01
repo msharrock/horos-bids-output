@@ -199,7 +199,7 @@
 
 -(void) annotateAllSeries {
     OBOCollectedData *sharedData = [OBOCollectedData sharedManager];
-    NSPredicate *takeOnlyMR = [NSPredicate predicateWithFormat:@"modality = %@", @"MR"];
+    NSPredicate *takeOnlyCT = [NSPredicate predicateWithFormat:@"modality = %@", @"CT"];
     NSMutableArray *decoratedFromCurrentStudy = [[NSMutableArray alloc] init];
     NSCountedSet *namesFromCurrentStudy = [[NSCountedSet alloc] init];  // to keep track of repetitions
     NSString *sessionLabel = [[NSString alloc] init];
@@ -211,7 +211,7 @@
         sessionLabel = [self createSessionLabelForStudy:currentStudy];
         subjectName = [self createSubjectNameForStudy:currentStudy];
         
-        for (DicomSeries *currentSeries in [[currentStudy imageSeries] filteredArrayUsingPredicate:takeOnlyMR]) {
+        for (DicomSeries *currentSeries in [[currentStudy imageSeries] filteredArrayUsingPredicate:takeOnlyCT]) {
             OBOSeries *decoratedSeries = [[OBOSeries alloc] initWithSeries:currentSeries params:[sharedData.seriesDescription objectForKey:currentSeries.name]];
             [decoratedSeries setValue:subjectName forKey:@"participant"];
             [decoratedSeries setValue:sessionLabel forKey:@"session"];
